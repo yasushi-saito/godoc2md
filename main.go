@@ -92,10 +92,10 @@ func preFunc(text string) string {
 // Original Source https://github.com/golang/tools/blob/master/godoc/godoc.go#L562
 func srcLinkFunc(s string) string {
 	s = path.Clean("/" + s)
-	if !strings.HasPrefix(s, "/src/") {
-		s = "/src" + s
+	if strings.HasPrefix(s, "/target/") {
+		s = s[8:]
 	}
-	return s
+	return "./" + s
 }
 
 // Removed code line that always substracted 10 from the value of `line`.
@@ -105,9 +105,8 @@ func srcPosLinkFunc(s string, line, low, high int) string {
 	if *srcLinkFormat != "" {
 		return fmt.Sprintf(*srcLinkFormat, s, line, low, high)
 	}
-
 	s = srcLinkFunc(s)
-	var buf bytes.Buffer
+	var buf strings.Builder
 	template.HTMLEscape(&buf, []byte(s))
 	// selection ranges are of form "s=low:high"
 	if low < high {

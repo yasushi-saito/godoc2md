@@ -8,35 +8,35 @@ var pkgTemplate = `{{with .PDoc}}
 # {{ .Name }}
 ` + "`" + `import "{{.ImportPath}}"` + "`" + `
 
-* [Overview](#pkg-overview)
-* [Index](#pkg-index){{if $.Examples}}
-* [Examples](#pkg-examples){{- end}}{{if $.Dirs}}
-* [Subdirectories](#pkg-subdirectories){{- end}}
+* [Overview](#overview)
+* [Index](#index){{if $.Examples}}
+* [Examples](#examples){{- end}}{{if $.Dirs}}
+* [Subdirectories](#subdirectories){{- end}}
 
-## <a name="pkg-overview">Overview</a>
+## Overview
 {{comment_md .Doc}}
 {{example_html $ ""}}
 
-## <a name="pkg-index">Index</a>{{if .Consts}}
-* [Constants](#pkg-constants){{end}}{{if .Vars}}
-* [Variables](#pkg-variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
+## Index{{if .Consts}}
+* [Constants](#constants){{end}}{{if .Vars}}
+* [Variables](#variables){{end}}{{- range .Funcs -}}{{$name_html := html .Name}}
 * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Types}}{{$tname_html := html .Name}}
 * [type {{$tname_html}}](#{{$tname_html}}){{- range .Funcs}}{{$name_html := html .Name}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$name_html}}){{- end}}{{- range .Methods}}{{$name_html := html .Name}}
   * [{{node_html $ .Decl false | sanitize}}](#{{$tname_html}}.{{$name_html}}){{- end}}{{- end}}{{- if $.Notes}}{{- range $marker, $item := $.Notes}}
 * [{{noteTitle $marker | html}}s](#pkg-note-{{$marker}}){{end}}{{end}}
 {{if $.Examples}}
-#### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
+#### Examples{{- range $.Examples}}
 * [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
 {{with .Filenames}}
-#### <a name="pkg-files">Package files</a>
-{{range .}}[{{.|filename|html}}]({{.|srcLink|html}}) {{end}}
+#### Package files
+{{range .}}[{{.|filename|html}}]({{.|filename|html}}) {{end}}
 {{end}}
 
-{{with .Consts}}## <a name="pkg-constants">Constants</a>
+{{with .Consts}}## <a name="constants">Constants</a>
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
-{{with .Vars}}## <a name="pkg-variables">Variables</a>
+{{with .Vars}}## <a name="variables">Variables</a>
 {{range .}}{{node $ .Decl | pre}}
 {{comment_md .Doc}}{{end}}{{end}}
 
